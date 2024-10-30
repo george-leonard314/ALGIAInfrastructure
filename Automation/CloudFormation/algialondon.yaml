@@ -1,0 +1,83 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Parameters:
+  AlgiaVPCCIDR:
+    Type: String
+  Algiasn1CIDR:
+    Type: String
+Resources:
+  AlgiaVPC:
+    Type: "AWS::EC2::VPC"
+    Properties:
+      CidrBlock: !Ref AlgiaVPCCIDR
+      EnableDnsSupport: true
+      EnableDnsHostnames: true
+      InstanceTenancy: default
+      Tags:
+        - Key: Name
+          Value: AlgiaVPC
+
+  AlgiaSubnet:
+    Type: "AWS::EC2::Subnet"
+    Properties:
+      VpcId: !Ref AlgiaVPC
+      CidrBlock: !Ref Algiasn1CIDR
+      AvailabilityZone: eu-west-2a
+      Tags:
+        - Key: Name
+          Value: AlgiaSubnet
+    DependsOn: AlgiaVPC
+
+  RouteTable:
+    Type: "AWS::EC2::RouteTable"
+    Properties:
+      VpcId: !Ref AlgiaVPC
+      Tags:
+        - Key: Name
+          Value: RouteTableTest
+
+  SNAssociation:
+    Type: "AWS::EC2::SubnetRouteTableAssociation"
+    Properties:
+      RouteTableId: !Ref RouteTable
+      SubnetId: !Ref AlgiaSubnet
+
+  AlgiaSecurityGroup:
+    Type: "AWS::EC2::SecurityGroup"
+    Properties:
+      GroupDescription: Allow SSH and HTTP access
+      VpcId: !Ref AlgiaVPC
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+      SecurityGroupEgress:
+        - IpProtocol: -1
+          FromPort: 0
+          ToPort: 0
+          CidrIp: 0.0.0.0/0
+
+  AlgiaIGW:
+    Type: "AWS::EC2::InternetGateway"
+    Properties:
+      Tags:
+        - Key: Name
+          Value: AlgiaIGW
+
+  VPCattach:
+    Type: "AWS::EC2::VPCGatewayAttachment"
+    Properties:
+      InternetGatewayId: !Ref AlgiaIGW
+      VpcId: !Ref AlgiaVPC
+
+  IGWRoute:
+    Type: "AWS::EC2::Route"
+    DependsOn: AlgiaIGW
+    Properties:
+      RouteTableId: !Ref RouteTable
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref AlgiaIGW
