@@ -2,7 +2,7 @@ AWSTemplateFormatVersion: "2010-09-09"
 Parameters:
   AlgiaVPCCIDR:
     Type: String
-  AlgiasnCIDR:
+  Algiasn1CIDR:
     Type: String
 Resources:
   AlgiaVPC:
@@ -20,7 +20,7 @@ Resources:
     Type: "AWS::EC2::Subnet"
     Properties:
       VpcId: !Ref AlgiaVPC
-      CidrBlock: !Ref AlgiasnCIDR
+      CidrBlock: !Ref Algiasn1CIDR
       AvailabilityZone: eu-west-1a
       MapPublicIpOnLaunch: true
       Tags:

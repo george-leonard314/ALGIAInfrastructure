@@ -1,0 +1,2 @@
+var_VPCCIDR: "192.168.2.0/24"
+var_Algiasn1CIDR: "192.168.2.128/25"

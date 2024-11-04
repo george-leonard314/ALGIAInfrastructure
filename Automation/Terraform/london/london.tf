@@ -1,3 +1,7 @@
+provider "aws" {
+  region = "eu-west-2"
+}
+
 data "aws_vpc" "algia_vpc" {
   filter {
     name   = "tag:Name"
@@ -30,4 +34,9 @@ resource "aws_instance" "algia_instance" {
   tags = {
     Name = "AlgiaInstance"
   }
+}
+
+
+output "instance_public_ip" {
+  value = aws_instance.algia_instance.public_ip
 }

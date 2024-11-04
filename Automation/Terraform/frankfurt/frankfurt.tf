@@ -1,3 +1,7 @@
+provider "aws" {
+  region = "eu-central-1"
+}
+
 data "aws_vpc" "algia_vpc" {
   filter {
     name   = "tag:Name"
@@ -19,6 +23,8 @@ data "aws_security_group" "algia_security_group" {
   }
 }
 
+
+
 resource "aws_instance" "algia_instance" {
   ami                    = "ami-08ec94f928cf25a9d"
   instance_type          = "t2.micro"
@@ -30,4 +36,8 @@ resource "aws_instance" "algia_instance" {
   tags = {
     Name = "AlgiaInstance"
   }
+}
+
+output "instance_public_ip" {
+  value = aws_instance.algia_instance.public_ip
 }

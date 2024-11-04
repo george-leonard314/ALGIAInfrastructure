@@ -1,0 +1,139 @@
+---
+- hosts: localhost
+  vars_files:
+    - TestVariables.yml
+  tasks: 
+
+########################################### Frankfurt ######################################
+
+    - name: Deploy cloudformation Frankfurt
+      cloudformation:
+        stack_name: "FrankfurtVPC"
+        state: "present"
+        region: "eu-central-1"
+        disable_rollback: true
+        template: "../CloudFormation/algiafrankfurt.yaml"
+        template_parameters:
+          AlgiaVPCCIDR: "{{var_VPCCIDR}}"
+          Algiasn1CIDR: "{{var_Algiasn1CIDR}}"
+        tags:
+          Name: "Frankfurt"
+      tags: 
+        - VPC
+        - Frankfurt
+
+    
+    - name: Init the Directory
+      command: terraform init
+      args:
+        chdir: ../Terraform/frankfurt
+      tags: 
+        - EC2
+        - Frankfurt
+    
+    - name: Apply Frankfurt
+      command: terraform apply --auto-approve
+      args:
+        chdir: ../Terraform/frankfurt
+      tags: 
+        - EC2
+        - Frankfurt
+    
+    - name: Extract public IP from Terraform output
+      command: terraform output -raw instance_public_ip
+      args:
+        chdir: ../Terraform/frankfurt
+      register: public_ip
+      changed_when: false
+      tags: 
+        - EC2
+        - Frankfurt
+
+
+########################################### Ireland ######################################
+
+    - name: Deploy cloudformation Ireland
+      cloudformation:
+        stack_name: "IrelandVPC"
+        state: "present"
+        region: "eu-west-1"
+        disable_rollback: true
+        template: "../CloudFormation/algiaireland.yaml"
+        template_parameters:
+          AlgiaVPCCIDR: "{{var_VPCCIDR}}"
+          Algiasn1CIDR: "{{var_Algiasn1CIDR}}"
+        tags:
+          Name: "Ireland"
+      tags: 
+        - VPC
+        - Ireland
+    
+    - name: Init the Directory
+      command: terraform init
+      args:
+        chdir: ../Terraform/ireland
+      tags: 
+        - EC2
+        - Ireland
+    
+    - name: Apply Ireland
+      command: terraform apply --auto-approve
+      args:
+        chdir: ../Terraform/ireland
+      tags: 
+        - EC2
+        - Ireland
+    
+    - name: Extract public IP from Terraform output
+      command: terraform output -raw instance_public_ip
+      args:
+        chdir: ../Terraform/ireland
+      register: public_ip
+      changed_when: false
+      tags: 
+        - EC2
+        - Ireland
+
+########################################### London ######################################
+
+    - name: Deploy cloudformation London
+      cloudformation:
+        stack_name: "LondonVPC"
+        state: "present"
+        region: "eu-west-2"
+        disable_rollback: true
+        template: "../CloudFormation/algialondon.yaml"
+        template_parameters:
+          AlgiaVPCCIDR: "{{var_VPCCIDR}}"
+          Algiasn1CIDR: "{{var_Algiasn1CIDR}}"
+        tags:
+          Name: "London"
+      tags: 
+        - VPC
+        - London
+    
+    - name: Init the Directory
+      command: terraform init
+      args:
+        chdir: ../Terraform/london
+      tags: 
+        - EC2
+        - London
+    
+    - name: Apply London
+      command: terraform apply --auto-approve
+      args:
+        chdir: ../Terraform/london
+      tags: 
+        - EC2
+        - London
+    
+    - name: Extract public IP from Terraform output
+      command: terraform output -raw instance_public_ip
+      args:
+        chdir: ../Terraform/london
+      register: public_ip
+      changed_when: false
+      tags: 
+        - EC2
+        - London

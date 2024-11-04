@@ -1,0 +1,60 @@
+---
+- hosts: localhost
+  tasks:
+
+########################  Destroy Frankfurt #######################
+    
+    - name: Terraform destroy Frankfurt
+      command: terraform destroy --auto-approve
+      args:
+        chdir: ../Terraform/frankfurt
+      tags: 
+        - EC2
+        - Frankfurt
+    
+    - name: Delete CloudFormation Frankfurt
+      cloudformation:
+        stack_name: "FrankfurtVPC"
+        region: "eu-central-1"
+        state: "absent"
+      tags:
+        - VPC
+        - Frankfurt
+
+########################  Destroy Ireland #######################
+    
+    - name: Terraform destroy Ireland
+      command: terraform destroy --auto-approve
+      args:
+        chdir: ../Terraform/ireland
+      tags: 
+        - EC2
+        - Ireland
+    
+    - name: Delete CloudFormation London
+      cloudformation:
+        stack_name: "IrelandVPC"
+        region: "eu-west-1"
+        state: "absent"
+      tags:
+        - VPC
+        - Ireland
+
+########################  Destroy London #######################
+    
+    - name: Terraform destroy London
+      command: terraform destroy --auto-approve
+      args:
+        chdir: ../Terraform/london
+      tags: 
+        - EC2
+        - London
+    
+    - name: Delete CloudFormation London
+      cloudformation:
+        stack_name: "LondonVPC"
+        region: "eu-west-2"
+        state: "absent"
+      tags:
+        - VPC
+        - London
