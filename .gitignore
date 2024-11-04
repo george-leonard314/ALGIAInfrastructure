@@ -4,3 +4,4 @@ terraform.tfstate*
 
 #private keys
 *.pem
+.DS_Store
