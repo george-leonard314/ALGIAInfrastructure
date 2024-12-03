@@ -1,0 +1,6 @@
+fastapi
+boto3
+pandas
+matplotlib
+requests
+requests-aws4auth

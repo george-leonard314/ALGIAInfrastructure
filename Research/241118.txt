@@ -1,0 +1,5 @@
+1. 2 containers 2 per availability zone and 2 per region
+2. Containers with Fargate
+3. MFA on Google Cloud
+4. Load balancers
+5. Route 53

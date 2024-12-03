@@ -1,0 +1,3 @@
+Notes for today:
+
+We can simplify the codes per region and cloud formation using smart variables and the modules available in terraform.

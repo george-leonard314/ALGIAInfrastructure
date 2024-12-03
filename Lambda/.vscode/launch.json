@@ -1,0 +1,79 @@
+{
+    "configurations": [
+        {
+            "type": "aws-sam",
+            "request": "direct-invoke",
+            "name": "lambda-python3.13:StockTradingStateMachine",
+            "invokeTarget": {
+                "target": "template",
+                "templatePath": "${workspaceFolder}/Test/lambda-python3.13/template.yaml",
+                "logicalId": "StockTradingStateMachine"
+            },
+            "lambda": {
+                "payload": {},
+                "environmentVariables": {},
+                "runtime": "python3.13"
+            }
+        },
+        {
+            "type": "aws-sam",
+            "request": "direct-invoke",
+            "name": "lambda-python3.13:StockCheckerFunction (python3.13)",
+            "invokeTarget": {
+                "target": "template",
+                "templatePath": "${workspaceFolder}/Test/lambda-python3.13/template.yaml",
+                "logicalId": "StockCheckerFunction"
+            },
+            "lambda": {
+                "payload": {},
+                "environmentVariables": {},
+                "runtime": "python3.13"
+            }
+        },
+        {
+            "type": "aws-sam",
+            "request": "direct-invoke",
+            "name": "lambda-python3.13:StockSellerFunction (python3.13)",
+            "invokeTarget": {
+                "target": "template",
+                "templatePath": "${workspaceFolder}/Test/lambda-python3.13/template.yaml",
+                "logicalId": "StockSellerFunction"
+            },
+            "lambda": {
+                "payload": {},
+                "environmentVariables": {},
+                "runtime": "python3.13"
+            }
+        },
+        {
+            "type": "aws-sam",
+            "request": "direct-invoke",
+            "name": "lambda-python3.13:StockBuyerFunction (python3.13)",
+            "invokeTarget": {
+                "target": "template",
+                "templatePath": "${workspaceFolder}/Test/lambda-python3.13/template.yaml",
+                "logicalId": "StockBuyerFunction"
+            },
+            "lambda": {
+                "payload": {},
+                "environmentVariables": {},
+                "runtime": "python3.13"
+            }
+        },
+        {
+            "type": "aws-sam",
+            "request": "direct-invoke",
+            "name": "lambda-python3.13:TransactionTable",
+            "invokeTarget": {
+                "target": "template",
+                "templatePath": "${workspaceFolder}/Test/lambda-python3.13/template.yaml",
+                "logicalId": "TransactionTable"
+            },
+            "lambda": {
+                "payload": {},
+                "environmentVariables": {},
+                "runtime": "python3.13"
+            }
+        }
+    ]
+}
